@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090b12">
+  <title>Obsidian Vault | Private Video Locker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Obsidian Vault home"><span class="brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8 20 7v10l-8 4.2L4 17V7l8-4.2Z"/><path d="M8.8 11.8V9.9a3.2 3.2 0 0 1 6.4 0v1.9M8 11.8h8v5H8z"/></svg></span><span>OBSIDIAN<span class="brand-light"> VAULT</span></span></a>
+    <div class="topbar-right"><span class="local-indicator"><i></i> LOCAL ONLY</span><button id="lockNowBtn" class="icon-button hidden" title="Lock vault" aria-label="Lock vault"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></svg></button></div>
+  </header>
+
+  <main class="app-shell">
+    <section id="setupView" class="auth-view hidden">
+      <div class="auth-icon"><svg viewBox="0 0 24 24"><path d="M12 2.5 20 6v6c0 5-3.5 8-8 9.5C7.5 20 4 17 4 12V6l8-3.5Z"/><path d="M9 12.2 11 14l4-4"/></svg></div>
+      <p class="eyebrow">YOUR PRIVATE SPACE</p><h1>Create your <span>vaults.</span></h1>
+      <p class="auth-copy">Set two different passwords. Each password unlocks its own encrypted video locker.</p>
+      <form id="setupForm" class="auth-card">
+        <div class="form-section-title"><span class="number">01</span><div><b>Locker One</b><small>First private space</small></div></div>
+        <label for="passOne">Create password</label><input id="passOne" type="password" minlength="8" autocomplete="new-password" placeholder="At least 8 characters" required>
+        <label for="passOneConfirm">Confirm password</label><input id="passOneConfirm" type="password" minlength="8" autocomplete="new-password" placeholder="Repeat password" required>
+        <div class="form-divider"></div>
+        <div class="form-section-title"><span class="number">02</span><div><b>Locker Two</b><small>Separate private space</small></div></div>
+        <label for="passTwo">Create second password</label><input id="passTwo" type="password" minlength="8" autocomplete="new-password" placeholder="Use a different password" required>
+        <label for="passTwoConfirm">Confirm second password</label><input id="passTwoConfirm" type="password" minlength="8" autocomplete="new-password" placeholder="Repeat second password" required>
+        <p class="security-note"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m9 12 2 2 4-4"/></svg> Passwords are not stored in readable form. If you forget them, encrypted videos cannot be recovered.</p>
+        <button class="primary-button" type="submit">Create secure vault <span>→</span></button><p id="setupError" class="error-message" role="alert"></p>
+      </form>
+    </section>
+
+    <section id="loginView" class="auth-view hidden">
+      <div class="auth-icon"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></svg></div>
+      <p class="eyebrow">ENCRYPTED ACCESS</p><h1>Unlock your <span>space.</span></h1><p class="auth-copy">Enter either password to open its matching locker.</p>
+      <form id="loginForm" class="auth-card login-card">
+        <label for="loginPassword">Vault password</label><div class="password-wrap"><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Enter your password" required><button type="button" id="togglePassword" class="show-password">Show</button></div>
+        <button class="primary-button" type="submit">Unlock vault <span>→</span></button><p id="loginError" class="error-message" role="alert"></p>
+        <p class="login-hint"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg> Your password determines which locker opens. This site cannot reset a forgotten password.</p>
+      </form>
+    </section>
+
+    <section id="vaultView" class="vault-view hidden">
+      <div class="vault-heading"><div><p class="eyebrow">PRIVATE STORAGE / <span id="vaultNumber">LOCKER 01</span></p><h1>Your video <span>vault.</span></h1><p class="vault-subtitle">Encrypted on this device. Only you hold the key.</p></div><div class="vault-badge"><span class="pulse-dot"></span> ENCRYPTED</div></div>
+      <div class="stats-row"><div class="stat-card"><span class="stat-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg></span><div><strong id="videoCount">0</strong><small>Videos stored</small></div></div><div class="stat-card"><span class="stat-icon"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg></span><div><strong id="storageUsed">0 MB</strong><small>Encrypted data</small></div></div><div class="stat-card"><span class="stat-icon"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m9 12 2 2 4-4"/></svg></span><div><strong>On-device</strong><small>No cloud upload</small></div></div></div>
+      <div class="library-toolbar"><div><h2>Your library</h2><p>Only this locker’s files are shown.</p></div><div class="toolbar-actions"><label class="search-box"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg><input id="searchInput" type="search" placeholder="Search videos..."></label><button id="addVideoBtn" class="primary-button add-button"><span class="plus">＋</span> Add videos</button><input id="fileInput" type="file" accept="video/*" multiple hidden></div></div>
+      <div id="uploadProgressWrap" class="upload-progress-wrap hidden"><div class="progress-copy"><span id="progressLabel">Encrypting video...</span><span id="progressPercent">0%</span></div><div class="progress-track"><div id="progressBar" class="progress-bar"></div></div><p>Keep this tab open until the import finishes.</p></div>
+      <div id="videoGrid" class="video-grid"></div>
+      <div id="emptyState" class="empty-state"><div class="empty-art"><svg viewBox="0 0 64 64"><rect x="8" y="13" width="48" height="38" rx="7"/><path d="m27 24 14 8-14 8z"/><path d="M17 8h30"/></svg></div><h3>Your vault is ready.</h3><p>Add a video to start building your private library.</p><button id="emptyAddBtn" class="secondary-button">＋ Add your first video</button></div>
+      <div class="vault-footer"><span><i></i> Your session is unlocked</span><button id="footerLockBtn" class="text-button">Lock vault <span>↗</span></button></div>
+    </section>
+  </main>
+  <footer class="site-footer"><span>OBSIDIAN VAULT</span><span>PRIVATE BY DESIGN · STORED LOCALLY</span></footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="playerModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="playerTitle"><div class="modal-backdrop" data-close-player></div><div class="player-panel"><div class="player-top"><div><p class="eyebrow">PRIVATE PLAYBACK</p><h2 id="playerTitle">Video preview</h2></div><button id="closePlayerBtn" class="icon-button" aria-label="Close video player">×</button></div><video id="videoPlayer" controls playsinline controlsList="nodownload"></video><p class="player-note">This video is decrypted in memory for playback and is not uploaded.</p></div></div>
+  <div id="confirmModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="confirmTitle"><div class="modal-backdrop" data-close-confirm></div><div class="confirm-panel"><div class="confirm-icon">!</div><h2 id="confirmTitle">Delete this video?</h2><p id="confirmText">This encrypted file will be permanently removed from this browser.</p><div class="confirm-actions"><button id="cancelDeleteBtn" class="secondary-button">Cancel</button><button id="confirmDeleteBtn" class="danger-button">Delete video</button></div></div></div>
+  <script src="script.js"></script>
+</body>
+</html>
